@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Issue / Return · LibraryMS{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-arrow-left-right text-primary"></i> Issue / Return Books</h2>
+
+<div class="card mb-4">
+  <div class="card-header"><i class="bi bi-box-arrow-up-right"></i> Issue a book <small class="text-muted">(loan period: {{ loan_days }} days)</small></div>
+  <div class="card-body">
+    <form method="post" action="{{ url_for('issue_book') }}">
+      <div class="row g-2 align-items-end">
+        <div class="col-md-5">
+          <label class="form-label" for="book_id">Book (available copies)</label>
+          <select class="form-select" id="book_id" name="book_id" required>
+            <option value="">— Select book —</option>
+            {% for b in books %}
+            <option value="{{ b.id }}">{{ b.title }} by {{ b.author }} ({{ b.available_quantity }} available)</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-5">
+          <label class="form-label" for="student_id">Student</label>
+          <select class="form-select" id="student_id" name="student_id" required>
+            <option value="">— Select student —</option>
+            {% for s in students %}
+            <option value="{{ s.id }}">{{ s.name }} ({{ s.email }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-2 d-grid">
+          <button class="btn btn-primary" type="submit"><i class="bi bi-check-circle"></i> Issue</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><i class="bi bi-box-arrow-down-left"></i> Currently issued ({{ active|length }}) — return books here</div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0 align-middle">
+      <thead><tr><th>Book</th><th>Student</th><th>Issue date</th><th>Due date</th><th>Status</th><th class="text-end">Action</th></tr></thead>
+      <tbody>
+        {% for r in active %}
+        <tr class="{% if r.status=='overdue' %}table-danger{% endif %}">
+          <td>{{ r.book_title }}</td><td>{{ r.student_name }}</td>
+          <td>{{ r.issue_date }}</td><td>{{ r.due_date }}</td>
+          <td>{% include "_status_badge.html" %}</td>
+          <td class="text-end">
+            <form method="post" action="{{ url_for('return_book', issue_id=r.id) }}" onsubmit="return confirm('Record return of this book?');">
+              <button class="btn btn-sm btn-success" type="submit"><i class="bi bi-check-lg"></i> Return</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center text-muted py-4">No books currently issued.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

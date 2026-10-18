@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Reports · LibraryMS{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-bar-chart text-primary"></i> Library Reports</h2>
+
+<div class="row g-3">
+  <div class="col-lg-6">
+    <div class="card mb-3">
+      <div class="card-header"><i class="bi bi-trophy"></i> Most issued books</div>
+      <div class="table-responsive"><table class="table table-hover mb-0">
+        <thead><tr><th>Book</th><th>Author</th><th class="text-end">Times issued</th></tr></thead>
+        <tbody>
+          {% for p in popular %}
+          <tr><td>{{ p.title }}</td><td>{{ p.author }}</td><td class="text-end"><span class="badge bg-primary">{{ p.times_issued }}</span></td></tr>
+          {% else %}
+          <tr><td colspan="3" class="text-center text-muted">No data.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header"><i class="bi bi-pie-chart"></i> Collection by category</div>
+      <div class="table-responsive"><table class="table table-hover mb-0">
+        <thead><tr><th>Category</th><th class="text-end">Titles</th><th class="text-end">Copies</th></tr></thead>
+        <tbody>
+          {% for c in category %}
+          <tr><td>{{ c.category or 'Uncategorized' }}</td><td class="text-end">{{ c.titles }}</td><td class="text-end">{{ c.copies }}</td></tr>
+          {% else %}
+          <tr><td colspan="3" class="text-center text-muted">No data.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card mb-3">
+      <div class="card-header"><i class="bi bi-cash-coin"></i> Fine summary</div>
+      <div class="card-body">
+        <p class="mb-1">Fines collected: <strong class="text-success">₹{{ "%.2f"|format(fine_stats.collected) }}</strong></p>
+        <p class="mb-1">Fines outstanding: <strong class="text-warning">₹{{ "%.2f"|format(fine_stats.outstanding) }}</strong></p>
+        <p class="mb-0">Total fine records: <strong>{{ fine_stats.count }}</strong></p>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header"><i class="bi bi-exclamation-triangle"></i> Overdue books ({{ overdue|length }})</div>
+      <div class="table-responsive"><table class="table table-hover mb-0">
+        <thead><tr><th>Book</th><th>Student</th><th>Due date</th><th class="text-end">Est. fine</th></tr></thead>
+        <tbody>
+          {% for o in overdue %}
+          <tr><td>{{ o.book_title }}</td><td>{{ o.student_name }}</td><td>{{ o.due_date }}</td>
+            <td class="text-end">₹{{ "%.2f"|format(o.est_fine) }}</td></tr>
+          {% else %}
+          <tr><td colspan="4" class="text-center text-muted">No overdue books. 🎉</td></tr>
+          {% endfor %}
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

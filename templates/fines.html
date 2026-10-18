@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Fines · LibraryMS{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-cash-coin text-primary"></i> Fines</h2>
+<div class="row g-3 mb-4">
+  <div class="col-md-6">
+    <div class="card stat-card bg-success text-white"><div class="card-body">
+      <h3 class="mb-0">₹{{ "%.2f"|format(totals.collected) }}</h3><small>Fines collected</small></div></div>
+  </div>
+  <div class="col-md-6">
+    <div class="card stat-card bg-warning text-dark"><div class="card-body">
+      <h3 class="mb-0">₹{{ "%.2f"|format(totals.outstanding) }}</h3><small>Fines outstanding</small></div></div>
+  </div>
+</div>
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0 align-middle">
+      <thead><tr><th>#</th><th>Student</th><th>Book</th><th>Amount</th><th>Date</th><th>Status</th><th class="text-end">Action</th></tr></thead>
+      <tbody>
+        {% for f in fines %}
+        <tr>
+          <td>{{ f.id }}</td><td>{{ f.student_name }}</td><td>{{ f.book_title }}</td>
+          <td>₹{{ "%.2f"|format(f.amount) }}</td><td>{{ f.created_date }}</td>
+          <td>{% if f.payment_status=='paid' %}<span class="badge bg-success">Paid</span>{% else %}<span class="badge bg-warning text-dark">Unpaid</span>{% endif %}</td>
+          <td class="text-end">
+            {% if f.payment_status=='unpaid' %}
+            <form method="post" action="{{ url_for('pay_fine', fine_id=f.id) }}" class="d-inline">
+              <button class="btn btn-sm btn-success" type="submit"><i class="bi bi-check-lg"></i> Mark paid</button>
+            </form>
+            {% else %}<span class="text-muted">—</span>{% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center text-muted py-4">No fines recorded.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

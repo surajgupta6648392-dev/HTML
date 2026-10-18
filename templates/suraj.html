@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Time Table Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div>
+            <h1>Time Table Management System</h1>
+            <p>College Class Schedule Management</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Dashboard -->
+        <section class="dashboard">
+            <div class="card">
+                <h3>Total Classes</h3>
+                <p id="totalClasses">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Total Subjects</h3>
+                <p id="totalSubjects">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Working Days</h3>
+                <p>6</p>
+            </div>
+        </section>
+
+        <!-- Add/Edit Form -->
+        <section class="panel">
+            <h2 id="formTitle">Add New Class</h2>
+
+            <form id="timetableForm">
+
+                <input type="hidden" id="editId">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="day">Day</label>
+
+                        <select id="day" required>
+                            <option value="">Select Day</option>
+                            <option>Monday</option>
+                            <option>Tuesday</option>
+                            <option>Wednesday</option>
+                            <option>Thursday</option>
+                            <option>Friday</option>
+                            <option>Saturday</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject Name</label>
+
+                        <input
+                            type="text"
+                            id="subject"
+                            placeholder="Enter subject"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teacher">Teacher Name</label>
+
+                        <input
+                            type="text"
+                            id="teacher"
+                            placeholder="Enter teacher name"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="room">Classroom</label>
+
+                        <input
+                            type="text"
+                            id="room"
+                            placeholder="e.g. Room 101"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="startTime">Start Time</label>
+
+                        <input
+                            type="time"
+                            id="startTime"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endTime">End Time</label>
+
+                        <input
+                            type="time"
+                            id="endTime"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="submitBtn">
+                        Add Class
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancelEdit"
+                        class="secondary-btn"
+                        hidden
+                    >
+                        Cancel Edit
+                    </button>
+                </div>
+
+            </form>
+        </section>
+
+        <!-- Timetable -->
+        <section class="panel">
+
+            <div class="table-header">
+                <h2>Weekly Timetable</h2>
+
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search subject or teacher..."
+                >
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Classroom</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="timetableBody"></tbody>
+                </table>
+
+            </div>
+
+            <p id="emptyMessage" class="empty-message">
+                No classes available. Add your first class!
+            </p>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>
+            Time Table Management System |
+            College Mini Project
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

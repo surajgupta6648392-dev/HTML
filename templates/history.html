@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Transaction History · LibraryMS{% endblock %}
+{% block content %}
+<h2 class="mb-3"><i class="bi bi-clock-history text-primary"></i> Issue &amp; Return History</h2>
+<form class="card card-body mb-3" method="get" action="{{ url_for('history') }}">
+  <div class="row g-2">
+    <div class="col-md-3">
+      <select class="form-select" name="status">
+        <option value="all" {% if status=='all' %}selected{% endif %}>All statuses</option>
+        <option value="issued" {% if status=='issued' %}selected{% endif %}>Issued</option>
+        <option value="overdue" {% if status=='overdue' %}selected{% endif %}>Overdue</option>
+        <option value="returned" {% if status=='returned' %}selected{% endif %}>Returned</option>
+      </select>
+    </div>
+    <div class="col-md-7">
+      <input class="form-control" type="search" name="q" placeholder="Search by book title or student name…" value="{{ q }}">
+    </div>
+    <div class="col-md-2 d-grid">
+      <button class="btn btn-primary" type="submit"><i class="bi bi-funnel"></i> Filter</button>
+    </div>
+  </div>
+</form>
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>#</th><th>Book</th><th>Student</th><th>Issued</th><th>Due</th><th>Returned</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for r in rows %}
+        <tr class="{% if r.status=='overdue' %}table-danger{% endif %}">
+          <td>{{ r.id }}</td><td>{{ r.book_title }}</td><td>{{ r.student_name }}</td>
+          <td>{{ r.issue_date }}</td><td>{{ r.due_date }}</td>
+          <td>{{ r.return_date or '—' }}</td>
+          <td>{% include "_status_badge.html" %}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center text-muted py-4">No transactions found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

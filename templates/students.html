@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Students · LibraryMS{% endblock %}
+{% block content %}
+<h2 class="mb-3"><i class="bi bi-people text-primary"></i> Students</h2>
+<form class="card card-body mb-3" method="get" action="{{ url_for('students') }}">
+  <div class="input-group">
+    <input class="form-control" type="search" name="q" placeholder="Search by name, email or department…" value="{{ q }}">
+    <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> Search</button>
+  </div>
+</form>
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0 align-middle">
+      <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Department</th><th>Registered</th><th>Active issues</th><th class="text-end">Actions</th></tr></thead>
+      <tbody>
+        {% for s in students %}
+        <tr>
+          <td><strong>{{ s.name }}</strong></td><td>{{ s.email }}</td>
+          <td>{{ s.phone or '—' }}</td><td>{{ s.department or '—' }}</td>
+          <td>{{ s.registration_date }}</td>
+          <td><span class="badge bg-info">{{ s.active_issues }}</span></td>
+          <td class="text-end text-nowrap">
+            <a href="{{ url_for('edit_student', student_id=s.id) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+            <form class="d-inline" method="post" action="{{ url_for('delete_student', student_id=s.id) }}" onsubmit="return confirm('Delete this student?');">
+              <button class="btn btn-sm btn-outline-danger" type="submit"><i class="bi bi-trash"></i></button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center text-muted py-4">No students found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

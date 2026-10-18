@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if book else 'Add' }} Book · LibraryMS{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-book text-primary"></i> {{ 'Edit Book' if book else 'Add New Book' }}</h2>
+<div class="card"><div class="card-body">
+  <form method="post">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label" for="title">Title *</label>
+        <input class="form-control" id="title" name="title" required value="{{ book.title if book else '' }}">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" for="author">Author *</label>
+        <input class="form-control" id="author" name="author" required value="{{ book.author if book else '' }}">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label" for="isbn">ISBN *</label>
+        <input class="form-control" id="isbn" name="isbn" required value="{{ book.isbn if book else '' }}">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" for="category">Category</label>
+        <input class="form-control" id="category" name="category" list="categories" value="{{ book.category if book else '' }}">
+        <datalist id="categories">
+          <option>Fiction</option><option>Non-Fiction</option><option>Science</option>
+          <option>Technology</option><option>History</option><option>Mathematics</option>
+          <option>Literature</option><option>Reference</option>
+        </datalist>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label" for="publisher">Publisher</label>
+        <input class="form-control" id="publisher" name="publisher" value="{{ book.publisher if book else '' }}">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" for="quantity">Quantity *</label>
+        <input class="form-control" id="quantity" name="quantity" type="number" min="1" required value="{{ book.quantity if book else 1 }}">
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit"><i class="bi bi-check-circle"></i> {{ 'Update Book' if book else 'Add Book' }}</button>
+    <a class="btn btn-secondary" href="{{ url_for('books') }}">Cancel</a>
+  </form>
+</div></div>
+{% endblock %}

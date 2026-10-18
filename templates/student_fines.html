@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}My Fines · LibraryMS{% endblock %}
+{% block content %}
+<h2 class="mb-3"><i class="bi bi-cash-coin text-primary"></i> My Fines</h2>
+
+{% if pending %}
+<div class="alert alert-warning">
+  <i class="bi bi-exclamation-triangle"></i>
+  You have {{ pending|length }} overdue book(s). Return them soon — fines accrue at ₹{{ fine_rate }}/day.
+</div>
+<div class="card mb-3">
+  <div class="card-header">Pending fines (overdue, not yet returned)</div>
+  <div class="table-responsive"><table class="table table-hover mb-0">
+    <thead><tr><th>Book</th><th>Due date</th><th class="text-end">Estimated fine</th></tr></thead>
+    <tbody>
+      {% for p in pending %}
+      <tr><td>{{ p.book_title }}</td><td>{{ p.due_date }}</td>
+        <td class="text-end">₹{{ "%.2f"|format(p.est_fine) }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</div>
+{% endif %}
+
+<div class="card">
+  <div class="card-header">Recorded fines</div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>Book</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for f in fines %}
+        <tr>
+          <td>{{ f.book_title }}</td>
+          <td>₹{{ "%.2f"|format(f.amount) }}</td>
+          <td>{{ f.created_date }}</td>
+          <td>{% if f.payment_status=='paid' %}<span class="badge bg-success">Paid</span>{% else %}<span class="badge bg-warning text-dark">Unpaid</span>{% endif %}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" class="text-center text-muted py-4">No recorded fines. 🎉</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

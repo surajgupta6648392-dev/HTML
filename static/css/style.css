@@ -1,0 +1,149 @@
+/* LibraryMS custom styles — blue / white / light-gray theme */
+:root {
+  --lms-blue: #0d6efd;
+  --lms-blue-dark: #0a58ca;
+  --lms-bg: #f4f6fa;
+}
+
+body {
+  background-color: var(--lms-bg);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- Auth pages ---------- */
+.auth-body {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a3d8f 100%);
+  min-height: 100vh;
+}
+.auth-card {
+  border: none;
+  border-radius: 1rem;
+}
+
+/* ---------- Layout with sidebar ---------- */
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #0d6efd 0%, #0a3d8f 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 1000;
+  transition: margin-left 0.25s ease;
+}
+
+.sidebar-brand {
+  font-size: 1.35rem;
+  font-weight: 700;
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-nav {
+  padding: 0.75rem 0.5rem;
+  flex-grow: 1;
+}
+
+.sidebar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.15rem;
+  font-weight: 500;
+}
+
+.sidebar-nav .nav-link i {
+  margin-right: 0.6rem;
+}
+
+.sidebar-nav .nav-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.sidebar-nav .nav-link.active {
+  background: #fff;
+  color: var(--lms-blue-dark);
+}
+
+.sidebar-footer {
+  padding: 0.9rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.main {
+  flex-grow: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  background: #fff;
+  border-bottom: 1px solid #dee2e6;
+  padding: 0.6rem 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
+
+.content {
+  padding: 1.5rem;
+  flex-grow: 1;
+}
+
+.footer {
+  background: #fff;
+  border-top: 1px solid #dee2e6;
+}
+
+/* ---------- Cards ---------- */
+.stat-card {
+  border: none;
+  border-radius: 0.9rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.card {
+  border: none;
+  border-radius: 0.9rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+  background: #fff;
+  border-bottom: 1px solid #eef1f6;
+  font-weight: 600;
+  border-radius: 0.9rem 0.9rem 0 0 !important;
+}
+
+.book-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.book-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(13, 110, 253, 0.15);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 767.98px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    margin-left: -230px;
+  }
+  .sidebar.show {
+    margin-left: 0;
+  }
+  .content {
+    padding: 1rem;
+  }
+}

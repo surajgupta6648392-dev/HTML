@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}My Dashboard · LibraryMS{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2 text-primary"></i> Welcome, {{ student.name }}</h2>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card bg-info text-white"><div class="card-body">
+      <i class="bi bi-book fs-2"></i><h3 class="mt-2 mb-0">{{ active|length }}</h3><small>Books with me</small></div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card bg-danger text-white"><div class="card-body">
+      <i class="bi bi-exclamation-triangle fs-2"></i><h3 class="mt-2 mb-0">{{ overdue_count }}</h3><small>Overdue</small></div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card bg-warning text-dark"><div class="card-body">
+      <i class="bi bi-cash-coin fs-2"></i><h3 class="mt-2 mb-0">₹{{ "%.2f"|format(unpaid) }}</h3><small>Unpaid fines</small></div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card bg-success text-white"><div class="card-body">
+      <i class="bi bi-clock-history fs-2"></i><h3 class="mt-2 mb-0">{{ total_borrowed }}</h3><small>Total borrowed</small></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><i class="bi bi-book"></i> Currently issued books</div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>Book</th><th>Author</th><th>Issue date</th><th>Due date</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for r in active %}
+        <tr class="{% if r.status=='overdue' %}table-danger{% endif %}">
+          <td>{{ r.book_title }}</td><td>{{ r.book_author }}</td>
+          <td>{{ r.issue_date }}</td><td>{{ r.due_date }}</td>
+          <td>{% include "_status_badge.html" %}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">No books currently issued. <a href="{{ url_for('student_books') }}">Browse books</a></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

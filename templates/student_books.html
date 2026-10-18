@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Browse Books · LibraryMS{% endblock %}
+{% block content %}
+<h2 class="mb-3"><i class="bi bi-book text-primary"></i> Browse Books</h2>
+<form class="card card-body mb-3" method="get" action="{{ url_for('student_books') }}">
+  <div class="row g-2">
+    <div class="col-md-3">
+      <select class="form-select" name="field">
+        <option value="all" {% if field=='all' %}selected{% endif %}>All fields</option>
+        <option value="title" {% if field=='title' %}selected{% endif %}>Title</option>
+        <option value="author" {% if field=='author' %}selected{% endif %}>Author</option>
+        <option value="category" {% if field=='category' %}selected{% endif %}>Category</option>
+      </select>
+    </div>
+    <div class="col-md-7">
+      <input class="form-control" type="search" name="q" placeholder="Search by title, author or category…" value="{{ q }}">
+    </div>
+    <div class="col-md-2 d-grid">
+      <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> Search</button>
+    </div>
+  </div>
+</form>
+<div class="row g-3">
+  {% for b in books %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card h-100 book-card">
+      <div class="card-body">
+        <h5 class="card-title">{{ b.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ b.author }}</h6>
+        <p class="card-text mb-1">{% if b.category %}<span class="badge bg-secondary">{{ b.category }}</span>{% endif %}</p>
+        <p class="card-text"><small class="text-muted">{{ b.publisher or '' }}{% if b.publisher %} · {% endif %}ISBN {{ b.isbn }}</small></p>
+      </div>
+      <div class="card-footer bg-white">
+        {% if b.available_quantity > 0 %}
+          <span class="badge bg-success"><i class="bi bi-check-circle"></i> {{ b.available_quantity }} available</span>
+        {% else %}
+          <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Not available</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="col-12"><div class="alert alert-info">No books found.</div></div>
+  {% endfor %}
+</div>
+{% endblock %}
